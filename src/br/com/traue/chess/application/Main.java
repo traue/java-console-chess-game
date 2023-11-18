@@ -1,37 +1,53 @@
 package br.com.traue.chess.application;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
-import br.com.traue.chess.chess.ChessException;
-import br.com.traue.chess.chess.ChessMatch;
-import br.com.traue.chess.chess.ChessPiece;
-import br.com.traue.chess.chess.ChessPosition;
+import br.com.traue.chess.game.ChessException;
+import br.com.traue.chess.game.ChessMatch;
+import br.com.traue.chess.game.ChessPiece;
+import br.com.traue.chess.game.ChessPosition;
 
 public class Main {
 
 	public static void main(String[] args) {
 
-		// tests
 		Scanner sc = new Scanner(System.in);
-		ChessMatch match = new ChessMatch();
+		ChessMatch chessMatch = new ChessMatch();
+		List<ChessPiece> captured = new ArrayList<>();
 
-		while (true) {
+		while (!chessMatch.getCheckMate()) {
 			try {
 				UI.clearScreen();
-				UI.printBoard(match.getPieces());
-				System.err.println();
+				UI.printMatch(chessMatch, captured);
+				System.out.println();
 				System.out.print("Source: ");
 				ChessPosition source = UI.readChessPosition(sc);
-				
-				boolean[][] possibleMoves = match.possibelMoves(source);
+
+				boolean[][] possibleMoves = chessMatch.possibleMoves(source);
 				UI.clearScreen();
-				UI.printBoard(match.getPieces(), possibleMoves);
+				UI.printBoard(chessMatch.getPieces(), possibleMoves);
 				System.out.println();
 				System.out.print("Target: ");
 				ChessPosition target = UI.readChessPosition(sc);
 
-				ChessPiece capChessPiece = match.performChessMove(source, target);
+				ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
+
+				if (capturedPiece != null) {
+					captured.add(capturedPiece);
+				}
+
+				if (chessMatch.getPromoted() != null) {
+					System.out.print("Piece for promotion (B/N/R/Q): ");
+					String type = sc.nextLine().toUpperCase();
+					while (!type.equals("B") && !type.equals("N") && !type.equals("R") & !type.equals("Q")) {
+						System.out.print("Invalid value! Piece for promotion (B/N/R/Q): ");
+						type = sc.nextLine().toUpperCase();
+					}
+					chessMatch.replacePromotedPiece(type);
+				}
 			} catch (ChessException e) {
 				System.out.println(e.getMessage());
 				sc.nextLine();
@@ -39,9 +55,8 @@ public class Main {
 				System.out.println(e.getMessage());
 				sc.nextLine();
 			}
-
 		}
-
+		UI.clearScreen();
+		UI.printMatch(chessMatch, captured);
 	}
-
 }

@@ -1,4 +1,4 @@
-package br.com.traue.chess.chess;
+package br.com.traue.chess.game;
 
 import br.com.traue.chess.boardgame.Position;
 
@@ -27,7 +27,7 @@ public class ChessPosition {
 	}
 
 	protected static ChessPosition fromProsition(Position position) {
-		return new ChessPosition((char) ('a' - position.getColumn()), 8 - position.getRow());
+		return new ChessPosition((char) ('a' + position.getColumn()), 8 - position.getRow());
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package br.com.traue.chess.chess;
+package br.com.traue.chess.game;
 
 import br.com.traue.chess.boardgame.BoardException;
 

@@ -2,8 +2,8 @@ package br.com.traue.chess.chess.pieces;
 
 import br.com.traue.chess.boardgame.Board;
 import br.com.traue.chess.boardgame.Position;
-import br.com.traue.chess.chess.ChessPiece;
-import br.com.traue.chess.chess.Color;
+import br.com.traue.chess.game.ChessPiece;
+import br.com.traue.chess.game.Color;
 
 public class Rook extends ChessPiece {
 
@@ -13,7 +13,7 @@ public class Rook extends ChessPiece {
 
 	@Override
 	public String toString() {
-		return "♜";
+		return "♖";
 	}
 
 	@Override
